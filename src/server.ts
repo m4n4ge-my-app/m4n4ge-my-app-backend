@@ -3,6 +3,8 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 
+import env from './util/validateEnv'
+
 const app: Express = express()
 const port = process.env.PORT || 5000
 
@@ -15,7 +17,7 @@ app.get('/', (req: Request, res: Response) => {
 
 //connect to mongodb
 mongoose
-  .connect(process.env.MONGO_CONNECTION_STRING!, {})
+  .connect(env.MONGO_CONNECTION_STRING!, {})
   .then(() => {
     console.log('Connected to MongoDB via Mongoose')
   })
