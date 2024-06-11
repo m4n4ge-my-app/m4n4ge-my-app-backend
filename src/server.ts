@@ -17,7 +17,7 @@ app.get('/', (req: Request, res: Response) => {
 
 //connect to mongodb
 mongoose
-  .connect(env.MONGO_CONNECTION_STRING!, {})
+  .connect(env.MONGO_CONNECTION_STRING, {})
   .then(() => {
     console.log('Connected to MongoDB via Mongoose')
   })
