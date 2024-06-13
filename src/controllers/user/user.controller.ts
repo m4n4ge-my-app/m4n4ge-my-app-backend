@@ -8,13 +8,10 @@ export const saveUser = async (userName: string, googleId: string) => {
         userName,
         googleId
       })
-      console.log('User saved:', newUser)
       return newUser
     }
-    console.log('User already exist:', user)
     return user
   } catch (error) {
-    console.error('Error while saving user:', error)
     return new Error('Error while saving user')
   }
 }

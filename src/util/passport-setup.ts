@@ -26,7 +26,6 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       //Google Strategy Callback
-      console.log('Google Strategy Callback', profile)
       userController.saveUser(profile.displayName, profile.id).then((user) => {
         done(null, user)
       })
