@@ -9,7 +9,7 @@ gooleRouter.get(
   '/google/redirect',
   passport.authenticate('google'),
   (req: Request, res: Response, next: NextFunction) => {
-    res.redirect('/dashboard')
+    req.user ? res.redirect('/dashboard') : res.redirect('/signin')
   }
 )
 
