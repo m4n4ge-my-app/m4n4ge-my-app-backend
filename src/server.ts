@@ -35,7 +35,6 @@ app.use(passport.session())
 app.use('/api/auth', googleRouter)
 
 app.get('/api/auth/check', (req, res) => {
-  console.log('req.isAuthenticated()', req.isAuthenticated())
   if (req.isAuthenticated()) {
     res.json({ isAuthenticated: true })
   } else {
