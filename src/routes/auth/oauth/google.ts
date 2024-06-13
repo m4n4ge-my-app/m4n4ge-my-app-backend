@@ -9,8 +9,7 @@ gooleRouter.get(
   '/google/redirect',
   passport.authenticate('google'),
   (req: Request, res: Response, next: NextFunction) => {
-    res.send('Google Callback')
-    next()
+    res.redirect('/dashboard')
   }
 )
 

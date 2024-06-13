@@ -3,6 +3,17 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
 import 'dotenv/config'
 import env from './validateEnv'
 import * as userController from '../controllers/user/user.controller'
+import userModel from '../models/user.model'
+
+passport.serializeUser((user: any, done) => {
+  done(null, user.id)
+})
+
+passport.deserializeUser((id: string, done) => {
+  userModel.findById(id).then((user) => {
+    done(null, user)
+  })
+})
 
 passport.use(
   new GoogleStrategy(
@@ -16,7 +27,6 @@ passport.use(
       //Google Strategy Callback
       console.log('Google Strategy Callback', profile)
       userController.saveUser(profile.displayName, profile.id).then((user) => {
-        console.log('User saved:', user)
         done(null, user)
       })
     }

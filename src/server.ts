@@ -3,6 +3,8 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cors from 'cors'
+import expressSession from 'express-session'
+import passport from 'passport'
 
 import env from './util/validateEnv'
 import googleRouter from './routes/auth/oauth/google'
@@ -13,6 +15,22 @@ const port = process.env.PORT || 5000
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
+
+//set session
+app.use(
+  expressSession({
+    secret: env.COOKIE_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000
+    }
+  })
+)
+
+//initialize passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/api/auth', googleRouter)
 
