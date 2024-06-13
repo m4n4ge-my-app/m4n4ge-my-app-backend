@@ -5,6 +5,7 @@ import env from './validateEnv'
 import * as userController from '../controllers/user/user.controller'
 import userModel from '../models/user.model'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 passport.serializeUser((user: any, done) => {
   done(null, user.id)
 })
