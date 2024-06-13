@@ -34,6 +34,25 @@ app.use(passport.session())
 
 app.use('/api/auth', googleRouter)
 
+app.get('/api/auth/check', (req, res) => {
+  console.log('req.isAuthenticated()', req.isAuthenticated())
+  if (req.isAuthenticated()) {
+    res.json({ isAuthenticated: true })
+  } else {
+    res.json({ isAuthenticated: false })
+  }
+})
+
+app.get('/api/auth/logout', (req: Request, res: Response) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Could not log out.')
+    } else {
+      return res.redirect('/')
+    }
+  })
+})
+
 app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'Hello World! Are you ready for M4n4geMy.app?' })
 })
