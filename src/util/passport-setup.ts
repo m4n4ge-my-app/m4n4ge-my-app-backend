@@ -1,5 +1,5 @@
 import passport from 'passport'
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20'
 import 'dotenv/config'
 import env from './validateEnv'
 import * as userController from '../controllers/user/user.controller'
@@ -24,9 +24,9 @@ passport.use(
       clientID: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET
     },
-    (accessToken, refreshToken, profile, done) => {
+    (accessToken, refreshToken, profile: Profile, done) => {
       //Google Strategy Callback
-      userController.saveUser(profile.displayName, profile.id).then((user) => {
+      userController.saveGoogleProfileAsUser(profile).then((user) => {
         done(null, user)
       })
     }
