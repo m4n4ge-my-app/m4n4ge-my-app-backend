@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   googleId: {
     type: String,
-    required: true,
+    required: false,
     unique: true
   }
 })
