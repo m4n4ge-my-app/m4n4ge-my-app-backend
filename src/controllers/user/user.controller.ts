@@ -1,16 +1,21 @@
+import { Profile } from 'passport-google-oauth20'
 import UserModel from '../../models/user.model'
 
-export const saveUser = async (userName: string, googleId: string) => {
+export const saveGoogleProfileAsUser = async (user: Profile) => {
   try {
-    const user = await UserModel.findOne({ googleId }).exec()
-    if (!user) {
+    const existingUser = await UserModel.findOne({ googleId: user.id }).exec()
+    if (!existingUser) {
       const newUser = await UserModel.create({
-        userName,
-        googleId
+        firstName: user.name?.givenName,
+        lastName: user.name?.familyName,
+        email: user.emails?.at(0)?.value,
+        userName: user.displayName,
+        photoString: user.photos?.at(0)?.value,
+        googleId: user.id
       })
       return newUser
     }
-    return user
+    return existingUser
   } catch (error) {
     return new Error('Error while saving user')
   }
