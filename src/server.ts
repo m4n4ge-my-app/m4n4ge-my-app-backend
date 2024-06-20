@@ -7,7 +7,7 @@ import expressSession from 'express-session'
 import passport from 'passport'
 
 import env from './util/validateEnv'
-import googleRouter from './routes/auth/oauth/google'
+import authRouter from './routes/auth/auth'
 // import usersRouter from './routes/user/users'
 
 const app: Express = express()
@@ -33,25 +33,8 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use('/api/auth', googleRouter)
-
-app.get('/api/auth/check', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ isAuthenticated: true })
-  } else {
-    res.json({ isAuthenticated: false })
-  }
-})
-
-app.get('/api/auth/logout', (req: Request, res: Response) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send('Could not log out.')
-    } else {
-      return res.redirect('/')
-    }
-  })
-})
+//auth routes
+app.use('/api/auth', authRouter)
 
 // app.use('/api/users', usersRouter)
 
