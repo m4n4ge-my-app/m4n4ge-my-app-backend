@@ -22,6 +22,16 @@ export const saveGoogleProfileAsUser = async (user: Profile) => {
   }
 }
 
+//signin user
+export const signInUser = async (req: Request, res: Response) => {
+  res.json({ message: 'Sign in user' })
+}
+
+//signup user
+export const signUpUser = async (req: Request, res: Response) => {
+  res.json({ message: 'Sign up user' })
+}
+
 export const getUserById = async (req: Request, res: Response) => {
   const userId = req.params.id
   try {
