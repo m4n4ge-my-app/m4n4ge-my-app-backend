@@ -1,6 +1,6 @@
 import { Profile } from 'passport-google-oauth20'
 import UserModel from '../../models/user.model'
-// import { Request, Response } from 'express'
+import { Request, Response } from 'express'
 
 export const saveGoogleProfileAsUser = async (user: Profile) => {
   try {
@@ -22,15 +22,15 @@ export const saveGoogleProfileAsUser = async (user: Profile) => {
   }
 }
 
-// export const getUserById = async (req: Request, res: Response) => {
-//   const userId = req.params.id
-//   try {
-//     const existingUser = await UserModel.findOne({ _id: userId }).exec()
-//     if (!existingUser) {
-//       return res.status(404).json({ message: 'There is no user by the id: ' + userId })
-//     }
-//     return res.status(200).json(existingUser)
-//   } catch (error) {
-//     return res.status(500).json({ message: 'Error while fetching user' })
-//   }
-// }
+export const getUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id
+  try {
+    const existingUser = await UserModel.findOne({ _id: userId }).exec()
+    if (!existingUser) {
+      return res.status(404).json({ message: 'There is no user by the id: ' + userId })
+    }
+    return res.status(200).json(existingUser)
+  } catch (error) {
+    return res.status(500).json({ message: 'Error while fetching user' })
+  }
+}
