@@ -3,7 +3,7 @@ import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20'
 import 'dotenv/config'
 import env from './validateEnv'
 import * as userController from '../controllers/user/user.controller'
-import userModel from '../models/user.model'
+import { UserModel } from '../models/user.model'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 passport.serializeUser((user: any, done) => {
@@ -11,7 +11,7 @@ passport.serializeUser((user: any, done) => {
 })
 
 passport.deserializeUser((id: string, done) => {
-  userModel.findById(id).then((user) => {
+  UserModel.findById(id).then((user) => {
     done(null, user)
   })
 })

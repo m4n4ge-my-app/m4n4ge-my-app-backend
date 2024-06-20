@@ -1,5 +1,5 @@
 import { Profile } from 'passport-google-oauth20'
-import UserModel from '../../models/user.model'
+import { UserModel } from '../../models/user.model'
 import { Request, Response } from 'express'
 
 export const saveGoogleProfileAsUser = async (user: Profile) => {
@@ -29,7 +29,18 @@ export const signInUser = async (req: Request, res: Response) => {
 
 //signup user
 export const signUpUser = async (req: Request, res: Response) => {
-  res.json({ message: 'Sign up user' })
+  const { firstName, lastName, email, password } = req.body
+
+  try {
+    const user = await UserModel.signup(firstName, lastName, email, password)
+    res.status(200).json({ email, user })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message })
+    } else {
+      res.status(400).json({ error: 'An unknown error occurred' })
+    }
+  }
 }
 
 export const getUserById = async (req: Request, res: Response) => {
