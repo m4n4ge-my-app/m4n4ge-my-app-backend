@@ -17,6 +17,8 @@ authRouter.get('/check', (req, res) => {
 authRouter.post('/signin', userController.signInUser)
 authRouter.post('/signup', userController.signUpUser)
 
+authRouter.get('/users/:id', userController.getUserById)
+
 authRouter.get('/logout', (req: Request, res: Response) => {
   req.session.destroy((err) => {
     if (err) {

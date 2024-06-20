@@ -8,7 +8,6 @@ import passport from 'passport'
 
 import env from './util/validateEnv'
 import authRouter from './routes/auth/auth'
-import usersRouter from './routes/user/users'
 
 const app: Express = express()
 const port = process.env.PORT || 5000
@@ -35,9 +34,6 @@ app.use(passport.session())
 
 //auth routes
 app.use('/api/auth', authRouter)
-
-//user route
-app.use('/api/users', usersRouter)
 
 app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'Hello World! Are you ready for M4n4geMy.app?' })
