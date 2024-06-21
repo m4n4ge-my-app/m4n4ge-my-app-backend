@@ -61,6 +61,8 @@ userSchema.statics.signup = async function (
   email: string,
   password: string
 ): Promise<UserType> {
+  //if the arguments are  or invalid, the front end is designed to not allow the form to be submitted, so checks are not needed here
+
   const exists = await this.findOne({ email })
 
   if (exists) {
