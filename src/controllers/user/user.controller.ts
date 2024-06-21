@@ -25,7 +25,19 @@ export const saveGoogleProfileAsUser = async (user: Profile) => {
 
 //signin user
 export const signInUser = async (req: Request, res: Response) => {
-  res.json({ message: 'Sign in user' })
+  const { email, password } = req.body
+
+  try {
+    const user: UserType = await UserModel.signin(email, password)
+    const token = generateToken(user._id as string)
+    res.status(200).json({ email, token })
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({ error: error.message })
+    } else {
+      res.status(400).json({ error: 'An unknown error occurred' })
+    }
+  }
 }
 
 //signup user

@@ -13,6 +13,7 @@ export interface UserType extends Document {
 
 interface UserModelType extends Model<UserType> {
   signup(firstName: string, lastName: string, email: string, password: string): Promise<UserType>
+  signin(email: string, password: string): Promise<UserType>
 }
 
 const userSchema = new Schema({
@@ -74,6 +75,25 @@ userSchema.statics.signup = async function (
     email,
     password: hashedPassword
   })
+
+  return user
+}
+
+//static signin method to sign in a user
+userSchema.statics.signin = async function (email: string, password: string): Promise<UserType> {
+  //no need to check if email and user fiels are empty becuause they are validated on the front end and it would not reach this point if that was the case
+
+  const user = await this.findOne({ email })
+
+  if (!user) {
+    throw new Error('Invalid email or password') //cannot be more specific for security reasons
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password as string)
+
+  if (!isMatch) {
+    throw new Error('Invalid email or password') //cannot be more specific for security reasons
+  }
 
   return user
 }
