@@ -1,6 +1,7 @@
 import { Profile } from 'passport-google-oauth20'
-import { UserModel } from '../../models/user.model'
+import { UserModel, UserType } from '../../models/user.model'
 import { Request, Response } from 'express'
+import { generateToken } from '../../util/jwt'
 
 export const saveGoogleProfileAsUser = async (user: Profile) => {
   try {
@@ -32,8 +33,9 @@ export const signUpUser = async (req: Request, res: Response) => {
   const { firstName, lastName, email, password } = req.body
 
   try {
-    const user = await UserModel.signup(firstName, lastName, email, password)
-    res.status(200).json({ email, user })
+    const user: UserType = await UserModel.signup(firstName, lastName, email, password)
+    const token = generateToken(user._id as string)
+    res.status(200).json({ email, token })
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message })
