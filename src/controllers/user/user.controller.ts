@@ -5,7 +5,9 @@ import { generateToken } from '../../util/jwt'
 
 export const saveGoogleProfileAsUser = async (user: Profile) => {
   try {
-    const existingUser = await UserModel.findOne({ googleId: user.id }).exec()
+    const existingUser = await UserModel.findOne({
+      $or: [{ googleId: user.id }, { email: user.emails?.at(0)?.value }]
+    }).exec()
     if (!existingUser) {
       const newUser = await UserModel.create({
         firstName: user.name?.givenName,
@@ -47,6 +49,15 @@ export const signUpUser = async (req: Request, res: Response) => {
   try {
     const user: UserType = await UserModel.signup(firstName, lastName, email, password)
     const token = generateToken(user._id as string)
+
+    // Log the user in by setting req.user
+    // req.login(user, function (err) {
+    //   if (err) {
+    //     res.status(400).json({ error: err.message })
+    //   } else {
+    //     res.status(200).json({ email, token })
+    //   }
+    // })
     res.status(200).json({ email, token })
   } catch (error) {
     if (error instanceof Error) {
