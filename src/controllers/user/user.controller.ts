@@ -32,7 +32,16 @@ export const signInUser = async (req: Request, res: Response) => {
   try {
     const user: UserType = await UserModel.signin(email, password)
     const token = generateToken(user._id as string)
-    res.status(200).json({ email, token })
+
+    // Log the user in by setting req.user
+    req.login(user, function (err) {
+      if (err) {
+        res.status(400).json({ error: err.message })
+      } else {
+        res.cookie('userId', user.id)
+        res.status(200).json({ email, token, redirectUrl: '/dashboard' })
+      }
+    })
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message })
