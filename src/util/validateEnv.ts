@@ -6,5 +6,6 @@ export default cleanEnv(process.env, {
   PORT: port(),
   GOOGLE_CLIENT_ID: str(),
   GOOGLE_CLIENT_SECRET: str(),
-  COOKIE_KEY: str()
+  COOKIE_KEY: str(),
+  JWT_SECRET: str()
 })

@@ -1,12 +1,12 @@
 import passport from '../../../util/passport-setup'
 import express, { Response } from 'express'
 
-const gooleRouter = express.Router()
+const googleRouter = express.Router()
 
-gooleRouter.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
+googleRouter.get('/', passport.authenticate('google', { scope: ['profile', 'email'] }))
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-gooleRouter.get('/google/redirect', passport.authenticate('google'), (req: any, res: Response) => {
+googleRouter.get('/redirect', passport.authenticate('google'), (req: any, res: Response) => {
   if (req.user) {
     res.cookie('userId', req.user.id)
     res.redirect('/dashboard')
@@ -15,4 +15,4 @@ gooleRouter.get('/google/redirect', passport.authenticate('google'), (req: any, 
   }
 })
 
-export default gooleRouter
+export default googleRouter

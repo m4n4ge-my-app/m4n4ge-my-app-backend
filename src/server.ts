@@ -7,8 +7,7 @@ import expressSession from 'express-session'
 import passport from 'passport'
 
 import env from './util/validateEnv'
-import googleRouter from './routes/auth/oauth/google'
-import usersRouter from './routes/user/users'
+import authRouter from './routes/auth/auth'
 
 const app: Express = express()
 const port = process.env.PORT || 5000
@@ -33,27 +32,8 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use('/api/auth', googleRouter)
-
-app.get('/api/auth/check', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ isAuthenticated: true })
-  } else {
-    res.json({ isAuthenticated: false })
-  }
-})
-
-app.get('/api/auth/logout', (req: Request, res: Response) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send('Could not log out.')
-    } else {
-      return res.redirect('/')
-    }
-  })
-})
-
-app.use('/api/users', usersRouter)
+//auth routes
+app.use('/api/auth', authRouter)
 
 app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'Hello World! Are you ready for M4n4geMy.app?' })
