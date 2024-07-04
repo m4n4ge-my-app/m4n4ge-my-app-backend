@@ -39,10 +39,6 @@ app.use('/api/auth', authRouter)
 //application routes
 app.use('/api/applications', applicationsRouter)
 
-app.get('/api', (_req: Request, res: Response) => {
-  res.json({ message: 'Hello World! Are you ready for M4n4geMy.app?' })
-})
-
 //error handling middleware for invalid routes
 app.use((_req: Request, _res: Response, next: NextFunction) => next(Error('Endpoint not found')))
 
