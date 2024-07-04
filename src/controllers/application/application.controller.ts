@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import ApplicationModel from '../../models/application.model'
 import createHttpError from 'http-errors'
+import mongoose from 'mongoose'
 
 export const getApplications: RequestHandler = async (_req, res, next) => {
   try {
@@ -14,6 +15,10 @@ export const getApplications: RequestHandler = async (_req, res, next) => {
 export const getApplication: RequestHandler = async (req, res, next) => {
   const applicationId = req.params.id
   try {
+    //handle invalid object id
+    if (!mongoose.isValidObjectId(applicationId)) {
+      throw createHttpError(400, 'Invalid application id')
+    }
     const application = await ApplicationModel.findById(applicationId).exec()
     if (!application) {
       res.status(404).json({ error: 'Application not found' })
