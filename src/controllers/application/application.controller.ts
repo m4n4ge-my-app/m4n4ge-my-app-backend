@@ -68,7 +68,7 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
     if (!employerName || !positionName || !applicationDate || !workModel || !jobPlatform) {
       throw createHttpError(
         400,
-        'employerName, positionName, applicationDate, workModel, and jobPlatform are required fields.'
+        'One of the following required fields are missing: employerName, positionName, applicationDate, workModel, and jobPlatform.'
       )
     }
     const application = await ApplicationModel.create({
