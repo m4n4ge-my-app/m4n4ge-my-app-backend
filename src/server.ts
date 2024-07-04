@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import 'dotenv/config'
@@ -8,6 +8,7 @@ import passport from 'passport'
 
 import env from './util/validateEnv'
 import authRouter from './routes/auth/auth'
+import applicationsRouter from './routes/application/application'
 
 const app: Express = express()
 const port = process.env.PORT || 5000
@@ -35,8 +36,25 @@ app.use(passport.session())
 //auth routes
 app.use('/api/auth', authRouter)
 
-app.get('/api', (req: Request, res: Response) => {
+//application routes
+app.use('/api/applications', applicationsRouter)
+
+app.get('/api', (_req: Request, res: Response) => {
   res.json({ message: 'Hello World! Are you ready for M4n4geMy.app?' })
+})
+
+//error handling middleware for invalid routes
+app.use((_req: Request, _res: Response, next: NextFunction) => next(Error('Endpoint not found')))
+
+//error handling middleware
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
+  console.log('error:', error)
+  let errorMessage = 'An unbeknownst error occurred.'
+  if (error instanceof Error) {
+    errorMessage = error.message
+  }
+  res.status(500).json({ error: errorMessage })
 })
 
 //connect to mongodb
