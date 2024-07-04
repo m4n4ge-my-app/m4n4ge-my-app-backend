@@ -5,6 +5,7 @@ import 'dotenv/config'
 import cors from 'cors'
 import expressSession from 'express-session'
 import passport from 'passport'
+import morgan from 'morgan'
 
 import env from './util/validateEnv'
 import authRouter from './routes/auth/auth'
@@ -13,6 +14,7 @@ import applicationsRouter from './routes/application/application'
 const app: Express = express()
 const port = process.env.PORT || 5000
 
+app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
