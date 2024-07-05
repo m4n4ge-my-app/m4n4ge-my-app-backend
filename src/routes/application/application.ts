@@ -6,5 +6,7 @@ const applicationsRouter = express.Router()
 applicationsRouter.get('/', applicationController.getApplications)
 applicationsRouter.get('/:id', applicationController.getApplication)
 applicationsRouter.post('/', applicationController.createApplication)
+applicationsRouter.patch('/:id', applicationController.updateApplication)
+applicationsRouter.delete('/:id', applicationController.deleteApplication)
 
 export default applicationsRouter
