@@ -3,8 +3,8 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cors from 'cors'
-import expressSession from 'express-session'
-import passport from 'passport'
+// import expressSession from 'express-session'
+// import passport from 'passport'
 import morgan from 'morgan'
 
 import env from './util/validateEnv'
@@ -20,21 +20,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-//set session
-app.use(
-  expressSession({
-    secret: env.COOKIE_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 24 * 60 * 60 * 1000
-    }
-  })
-)
+// //set session
+// app.use(
+//   expressSession({
+//     secret: env.COOKIE_KEY,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       maxAge: 24 * 60 * 60 * 1000
+//     }
+//   })
+// )
 
-//initialize passport
-app.use(passport.initialize())
-app.use(passport.session())
+// //initialize passport
+// app.use(passport.initialize())
+// app.use(passport.session())
 
 //auth routes
 app.use('/api/auth', authRouter)
