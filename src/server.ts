@@ -20,18 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-// //set session
-// app.use(
-//   expressSession({
-//     secret: env.COOKIE_KEY,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: {
-//       maxAge: 24 * 60 * 60 * 1000
-//     }
-//   })
-// )
-
 // //initialize passport
 // app.use(passport.initialize())
 // app.use(passport.session())
