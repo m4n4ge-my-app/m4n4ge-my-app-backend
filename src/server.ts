@@ -10,6 +10,7 @@ import env from './util/validateEnv'
 import authRouter from './routes/auth/auth'
 import applicationsRouter from './routes/application/application'
 import createHttpError, { isHttpError } from 'http-errors'
+import { requireAuth } from './middleware/requireAuth'
 
 const app: Express = express()
 const port = process.env.PORT || 5000
@@ -25,6 +26,9 @@ app.use(cors())
 
 //auth routes
 app.use('/api/auth', authRouter)
+
+//auth middleware
+app.use(requireAuth)
 
 //application routes
 app.use('/api/applications', applicationsRouter)
