@@ -1,9 +1,12 @@
-import passport from 'passport'
+//external imports
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20'
+import passport from 'passport'
 import 'dotenv/config'
-import env from './validateEnv'
+
+//local imports
 import * as userController from '../controllers/user/user.controller'
 import { UserModel } from '../models/user.model'
+import env from './validateEnv'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 passport.serializeUser((user: any, done) => {

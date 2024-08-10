@@ -1,16 +1,18 @@
+//external imports
 import express, { Express, NextFunction, Request, Response } from 'express'
+import createHttpError, { isHttpError } from 'http-errors'
 import bodyParser from 'body-parser'
+// import passport from 'passport'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cors from 'cors'
-import expressSession from 'express-session'
-import passport from 'passport'
 import morgan from 'morgan'
 
-import env from './util/validateEnv'
-import authRouter from './routes/auth/auth'
+//local imports
 import applicationsRouter from './routes/application/application'
-import createHttpError, { isHttpError } from 'http-errors'
+import { requireAuth } from './middleware/requireAuth'
+import authRouter from './routes/auth/auth'
+import env from './util/validateEnv'
 
 const app: Express = express()
 const port = process.env.PORT || 5000
@@ -20,24 +22,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-//set session
-app.use(
-  expressSession({
-    secret: env.COOKIE_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 24 * 60 * 60 * 1000
-    }
-  })
-)
-
-//initialize passport
-app.use(passport.initialize())
-app.use(passport.session())
+// //initialize passport
+// app.use(passport.initialize())
+// app.use(passport.session())
 
 //auth routes
 app.use('/api/auth', authRouter)
+
+//auth middleware
+app.use(requireAuth)
 
 //application routes
 app.use('/api/applications', applicationsRouter)
@@ -49,7 +42,7 @@ app.use((_req: Request, _res: Response, next: NextFunction) => next(createHttpEr
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
   console.log('error:', error)
-  let errorMessage = 'An unbeknownst error occurred.'
+  let errorMessage = 'An unknown error occurred.'
   let statusCode = 500
   if (isHttpError(error)) {
     errorMessage = error.message

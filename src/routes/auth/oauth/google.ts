@@ -1,5 +1,5 @@
-import passport from '../../../util/passport-setup'
 import express, { Response } from 'express'
+import passport from '../../../util/passport-setup'
 
 const googleRouter = express.Router()
 
