@@ -1,7 +1,8 @@
-import jwt from 'jsonwebtoken'
-import env from '../util/validateEnv'
 import { NextFunction, Request, Response } from 'express'
+import jwt from 'jsonwebtoken'
+
 import { UserModel } from '../models/user.model'
+import env from '../util/validateEnv'
 
 export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   //verify if user is authenticated

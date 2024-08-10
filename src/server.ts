@@ -1,16 +1,18 @@
+//external imports
 import express, { Express, NextFunction, Request, Response } from 'express'
+import createHttpError, { isHttpError } from 'http-errors'
 import bodyParser from 'body-parser'
+// import passport from 'passport'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cors from 'cors'
-// import passport from 'passport'
 import morgan from 'morgan'
 
-import env from './util/validateEnv'
-import authRouter from './routes/auth/auth'
+//local imports
 import applicationsRouter from './routes/application/application'
-import createHttpError, { isHttpError } from 'http-errors'
 import { requireAuth } from './middleware/requireAuth'
+import authRouter from './routes/auth/auth'
+import env from './util/validateEnv'
 
 const app: Express = express()
 const port = process.env.PORT || 5000

@@ -1,6 +1,7 @@
 // import { Profile } from 'passport-google-oauth20'
-import { UserModel, UserType } from '../../models/user.model'
 import { Request, Response } from 'express'
+
+import { UserModel, UserType } from '../../models/user.model'
 import { generateToken } from '../../util/jwt'
 
 // export const saveGoogleProfileAsUser = async (user: Profile) => {
