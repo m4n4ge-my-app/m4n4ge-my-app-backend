@@ -6,17 +6,7 @@ const authRouter = express.Router()
 
 // authRouter.use('/google', googleRouter)
 
-// authRouter.get('/check', (req, res) => {
-//   if (req.isAuthenticated()) {
-//     res.json({ isAuthenticated: true })
-//   } else {
-//     res.json({ isAuthenticated: false })
-//   }
-// })
-
 authRouter.post('/signin', userController.signInUser)
 authRouter.post('/signup', userController.signUpUser)
-
-// authRouter.get('/users/:id', userController.getUserById)
 
 export default authRouter
