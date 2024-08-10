@@ -40,7 +40,7 @@ app.use((_req: Request, _res: Response, next: NextFunction) => next(createHttpEr
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
   console.log('error:', error)
-  let errorMessage = 'An unbeknownst error occurred.'
+  let errorMessage = 'An unknown error occurred.'
   let statusCode = 500
   if (isHttpError(error)) {
     errorMessage = error.message
