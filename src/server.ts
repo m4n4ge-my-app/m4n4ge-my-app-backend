@@ -3,7 +3,6 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import 'dotenv/config'
 import cors from 'cors'
-// import expressSession from 'express-session'
 // import passport from 'passport'
 import morgan from 'morgan'
 
