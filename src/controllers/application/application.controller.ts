@@ -4,9 +4,11 @@ import mongoose from 'mongoose'
 
 import ApplicationModel from '../../models/application.model'
 
-export const getApplications: RequestHandler = async (_req, res, next) => {
+export const getApplications: RequestHandler = async (req, res, next) => {
+  //@ts-ignore
+  const userId = req.user!._id
   try {
-    const applications = await ApplicationModel.find().exec()
+    const applications = await ApplicationModel.find({ userId }).exec()
     res.status(200).json(applications)
   } catch (error) {
     next(error)
@@ -47,6 +49,7 @@ interface CreateApplicationBody {
   workModel?: string
   jobPlatform?: string
   isFavorite?: boolean
+  userId?: string
 }
 
 export const createApplication: RequestHandler<unknown, unknown, CreateApplicationBody, unknown> = async (
@@ -64,6 +67,8 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
   const workModel = req.body.workModel
   const jobPlatform = req.body.jobPlatform
   const isFavorite = req.body.isFavorite
+  //@ts-ignore
+  const userId = req.user!._id
 
   try {
     if (!employerName || !positionName || !applicationDate || !workModel || !jobPlatform) {
@@ -82,7 +87,8 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
       note,
       workModel,
       jobPlatform,
-      isFavorite
+      isFavorite,
+      userId
     })
 
     res.status(201).json(application)
