@@ -69,6 +69,7 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
   const isFavorite = req.body.isFavorite
   //@ts-ignore
   const userId = req.user!._id
+  const status = 'Applied'
 
   try {
     if (!employerName || !positionName || !applicationDate || !workModel || !jobPlatform) {
@@ -88,7 +89,8 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
       workModel,
       jobPlatform,
       isFavorite,
-      userId
+      userId,
+      status
     })
 
     res.status(201).json(application)

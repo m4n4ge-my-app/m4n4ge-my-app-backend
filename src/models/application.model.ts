@@ -11,7 +11,8 @@ const applicationSchema = new Schema({
   workModel: { type: String, required: true },
   jobPlatform: { type: String, required: true },
   isFavorite: { type: Boolean, required: false },
-  userId: { type: String, required: true }
+  userId: { type: String, required: true },
+  status: { type: String, required: false }
 })
 
 type ApplicationType = InferSchemaType<typeof applicationSchema>
