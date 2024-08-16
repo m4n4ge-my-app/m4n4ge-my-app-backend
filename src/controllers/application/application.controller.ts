@@ -78,6 +78,14 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
         'One of the following required fields are missing: employerName, positionName, applicationDate, workModel, and jobPlatform.'
       )
     }
+
+    if (userId.toString() === '66b7cfe0f28bb61c67d0e18a' || userId.toString() === '66b7d01ab06633512ff5bed6') {
+      throw createHttpError(
+        403,
+        'Access Denied: Demonstration accounts do not have the privileges to add an application. Please create a personal account for full access.'
+      )
+    }
+
     const application = await ApplicationModel.create({
       employerName,
       positionName,
