@@ -41,9 +41,9 @@ export const getApplication: RequestHandler = async (req, res, next) => {
 interface CreateApplicationBody {
   employerName?: string
   positionName?: string
-  applicationDate?: string
-  jobPostPostingDate?: string
-  jobPostEndingDate?: string
+  applicationDate?: Date
+  jobPostPostingDate?: Date
+  jobPostEndingDate?: Date
   jobLocation?: string
   note?: string
   workModel?: string
@@ -113,9 +113,9 @@ interface UpdateApplicationParams {
 interface UpdateApplicationRequestBody {
   employerName?: string
   positionName?: string
-  applicationDate?: string
-  jobPostPostingDate?: string
-  jobPostEndingDate?: string
+  applicationDate?: Date
+  jobPostPostingDate?: Date
+  jobPostEndingDate?: Date
   jobLocation?: string
   note?: string
   workModel?: string
