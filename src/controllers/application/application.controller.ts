@@ -50,6 +50,7 @@ interface CreateApplicationBody {
   jobPlatform?: string
   isFavorite?: boolean
   userId?: string
+  applicationStatus?: string
 }
 
 export const createApplication: RequestHandler<unknown, unknown, CreateApplicationBody, unknown> = async (
@@ -69,7 +70,7 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
   const isFavorite = req.body.isFavorite
   //@ts-ignore
   const userId = req.user!._id
-  const status = 'Applied'
+  const applicationStatus = 'Applied'
 
   try {
     if (!employerName || !positionName || !applicationDate || !workModel || !jobPlatform) {
@@ -98,7 +99,7 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
       jobPlatform,
       isFavorite,
       userId,
-      status
+      applicationStatus
     })
 
     res.status(201).json(application)
@@ -121,6 +122,7 @@ interface UpdateApplicationRequestBody {
   workModel?: string
   jobPlatform?: string
   isFavorite?: boolean
+  applicationStatus?: string
 }
 
 //ATTENTION: when we explicity define the type of the RequestHandler like blow we cannot use "req: Request, res: Response, next: NextFunction" for the callback function parameters for some reason, we have to use as "req, res, next" here
@@ -131,6 +133,7 @@ export const updateApplication: RequestHandler<
   UpdateApplicationRequestBody,
   unknown
 > = async (req, res, next) => {
+  console.log('req.body', req.body)
   const applicationId = req.params.id
   const updatedEmployerName = req.body.employerName
   const updatedPositionName = req.body.positionName
@@ -142,6 +145,7 @@ export const updateApplication: RequestHandler<
   const updatedWorkModel = req.body.workModel
   const updatedJobPlatform = req.body.jobPlatform
   const updatedIsFavorite = req.body.isFavorite
+  const updatedStatus = req.body.applicationStatus
   try {
     //handle invalid object id
     if (!mongoose.isValidObjectId(applicationId)) {
@@ -177,6 +181,7 @@ export const updateApplication: RequestHandler<
     application.workModel = updatedWorkModel
     application.jobPlatform = updatedJobPlatform
     application.isFavorite = updatedIsFavorite
+    application.applicationStatus = updatedStatus
     const updatedApplication = await application.save()
 
     //OPTIN 2 to update the note in db - this is not preferred becuase application is already fetched and no need to fetch it again like in here

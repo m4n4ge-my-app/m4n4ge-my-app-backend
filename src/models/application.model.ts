@@ -12,7 +12,7 @@ const applicationSchema = new Schema({
   jobPlatform: { type: String, required: true },
   isFavorite: { type: Boolean, required: false },
   userId: { type: String, required: true },
-  status: { type: String, required: false }
+  applicationStatus: { type: String, required: false }
 })
 
 type ApplicationType = InferSchemaType<typeof applicationSchema>
