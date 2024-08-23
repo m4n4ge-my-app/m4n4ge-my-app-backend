@@ -33,8 +33,10 @@ export const signInUser = async (req: Request, res: Response) => {
   try {
     const user: UserType = await UserModel.signin(email, password)
     const token = generateToken(user._id as string)
+    const firstName = user.firstName
+    const lastName = user.lastName
 
-    res.status(200).json({ email, token })
+    res.status(200).json({ email, token, firstName, lastName })
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message })
@@ -52,7 +54,7 @@ export const signUpUser = async (req: Request, res: Response) => {
     const user: UserType = await UserModel.signup(firstName, lastName, email, password)
     const token = generateToken(user._id as string)
 
-    res.status(200).json({ email, token })
+    res.status(200).json({ email, token, firstName, lastName })
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ error: error.message })
