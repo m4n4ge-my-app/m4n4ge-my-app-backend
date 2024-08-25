@@ -80,7 +80,8 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
       )
     }
 
-    if (userId.toString() === '66b7cfe0f28bb61c67d0e18a' || userId.toString() === '66b7d01ab06633512ff5bed6') {
+    //limit demo accounts from continuing further
+    if (userId.toString() === '66b7cfe0f28bb61c67d0e18a' || userId.toString() === '66c53b4ed5e36ae79db664a5') {
       throw createHttpError(
         403,
         'Access Denied: Demonstration accounts do not have the privileges to add an application. Please create a personal account for full access.'
@@ -122,6 +123,7 @@ interface UpdateApplicationRequestBody {
   workModel?: string
   jobPlatform?: string
   isFavorite?: boolean
+  userId?: string
   applicationStatus?: string
 }
 
@@ -145,6 +147,8 @@ export const updateApplication: RequestHandler<
   const updatedWorkModel = req.body.workModel
   const updatedJobPlatform = req.body.jobPlatform
   const updatedIsFavorite = req.body.isFavorite
+  //@ts-ignore
+  const userId = req.user!._id
   const updatedStatus = req.body.applicationStatus
   try {
     //handle invalid object id
@@ -167,6 +171,14 @@ export const updateApplication: RequestHandler<
       throw createHttpError(
         400,
         'One of the following required fields are missing: employerName, positionName, applicationDate, workModel, and jobPlatform.'
+      )
+    }
+
+    //limit demo accounts from continuing further
+    if (userId.toString() === '66b7cfe0f28bb61c67d0e18a' || userId.toString() === '66c53b4ed5e36ae79db664a5') {
+      throw createHttpError(
+        403,
+        'Access Denied: Demonstration accounts do not have the privileges to update an application. Please create a personal account for full access.'
       )
     }
 
@@ -206,6 +218,8 @@ export const updateApplication: RequestHandler<
 //since we do not need body for deletion, we don not need to pass the types for RequestHandler
 export const deleteApplication: RequestHandler = async (req, res, next) => {
   const applicationId = req.params.id
+  //@ts-ignore
+  const userId = req.user!._id
   try {
     //handle invalid object id
     if (!mongoose.isValidObjectId(applicationId)) {
@@ -215,6 +229,14 @@ export const deleteApplication: RequestHandler = async (req, res, next) => {
     //handle resource not found
     if (!application) {
       throw createHttpError(404, `Application with id ${applicationId} not found`)
+    }
+
+    //limit demo accounts from continuing further
+    if (userId.toString() === '66b7cfe0f28bb61c67d0e18a' || userId.toString() === '66c53b4ed5e36ae79db664a5') {
+      throw createHttpError(
+        403,
+        'Access Denied: Demonstration accounts do not have the privileges to delete an application. Please create a personal account for full access.'
+      )
     }
 
     await application.deleteOne()
