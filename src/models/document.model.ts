@@ -6,6 +6,7 @@ const documentSchema = new Schema({
   userId: { type: String, required: true },
   type: { type: String, required: true },
   size: { type: Number, required: true },
+  fileType: { type: String, required: true },
   uploadedAt: { type: Date, default: Date.now }
 })
 
