@@ -22,10 +22,10 @@ export const uploadToS3 = async (req: Request, res: Response) => {
       case 'resume':
         folder = 'resumes'
         break
-      case 'coverLetter':
+      case 'cover letter':
         folder = 'coverLetters'
         break
-      case 'jobDescription':
+      case 'description':
         folder = 'jobDescriptions'
         break
       default:
