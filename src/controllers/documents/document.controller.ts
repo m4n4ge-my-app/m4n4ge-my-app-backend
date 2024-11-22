@@ -42,7 +42,9 @@ export const uploadToS3 = async (req: Request, res: Response) => {
       userId,
       type: file.mimetype,
       size: file.size,
-      fileType
+      fileType,
+      applications: req.body.applications || [],
+      tags: req.body.tags || []
     })
 
     await document.save()

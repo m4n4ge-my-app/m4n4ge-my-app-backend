@@ -7,6 +7,8 @@ const documentSchema = new Schema({
   type: { type: String, required: true },
   size: { type: Number, required: true },
   fileType: { type: String, required: true },
+  applications: { type: [String], required: false },
+  tags: { type: [String], required: false },
   uploadedAt: { type: Date, default: Date.now }
 })
 
