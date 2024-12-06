@@ -20,3 +20,13 @@ export const uploadToS3Bucket = async (
 
   return s3.upload(params).promise()
 }
+
+export const generatePresignedUrl = (s3key: string): string => {
+  const params: AWS.S3.GetObjectRequest & { Expires: number } = {
+    Bucket: process.env.AWS_BUCKET_NAME!,
+    Key: s3key,
+    Expires: 60 * 5
+  }
+
+  return s3.getSignedUrl('getObject', params)
+}

@@ -5,5 +5,6 @@ import { upload } from '../../middleware/mutler'
 const documentsRouter = express.Router()
 
 documentsRouter.post('/', upload.single('file'), documentsController.uploadToS3)
+documentsRouter.get('/:id/presignedUrl', documentsController.getPresignedUrl)
 
 export default documentsRouter
