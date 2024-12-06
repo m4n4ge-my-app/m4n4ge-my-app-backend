@@ -79,3 +79,15 @@ export const getPresignedUrl = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Failed to fetch document' })
   }
 }
+
+export const getAllDocuments = async (req: Request, res: Response) => {
+  try {
+    //@ts-ignore
+    const userId = req.user!._id
+    const documents = await Document.find({ userId })
+    return res.status(200).json(documents)
+  } catch (error) {
+    console.error('Error fetching documents:', error)
+    return res.status(500).json({ error: 'Failed to fetch documents' })
+  }
+}
