@@ -11,9 +11,10 @@ export const uploadToS3Bucket = async (
   fileName: string,
   contentType: string
 ): Promise<AWS.S3.ManagedUpload.SendData> => {
+  const sanitizedFileName = fileName.replace(/ /g, '_')
   const params: AWS.S3.PutObjectRequest = {
     Bucket: process.env.AWS_BUCKET_NAME!,
-    Key: fileName,
+    Key: sanitizedFileName,
     Body: fileBuffer,
     ContentType: contentType
   }
