@@ -18,7 +18,7 @@ export const uploadToS3 = async (req: Request, res: Response) => {
     const userId = req.user!._id
 
     //for cases where fileType is provided but not recognized
-    let folder = 'uncategorized'
+    let folder = 'unCategorized'
 
     switch (fileType) {
       case 'resume':
