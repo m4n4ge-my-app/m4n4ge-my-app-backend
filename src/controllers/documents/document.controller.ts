@@ -1,4 +1,6 @@
 import { Request, Response } from 'express'
+import { v4 as uuid } from 'uuid'
+
 import Document from '../../models/document.model'
 import { uploadToS3Bucket } from '../../util/s3'
 
@@ -32,8 +34,11 @@ export const uploadToS3 = async (req: Request, res: Response) => {
         break
     }
 
+    const sanitizedFileName = file.originalname.replace(/ /g, '_')
+    const uniqueFileName = `${uuid()}_${sanitizedFileName}`
+
     // Proceed with file upload to S3
-    const s3Result = await uploadToS3Bucket(file.buffer, `${folder}/${file.originalname}`, file.mimetype)
+    const s3Result = await uploadToS3Bucket(file.buffer, `${folder}/${uniqueFileName}`, file.mimetype)
 
     // Save document metadata in MongoDB
     const document = new Document({
