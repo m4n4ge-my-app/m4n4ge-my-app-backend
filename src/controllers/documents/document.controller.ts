@@ -44,6 +44,7 @@ export const uploadToS3 = async (req: Request, res: Response) => {
     const document = new Document({
       name: file.originalname,
       s3Url: s3Result.Location,
+      s3key: s3Result.Key,
       userId,
       type: file.mimetype,
       size: file.size,
