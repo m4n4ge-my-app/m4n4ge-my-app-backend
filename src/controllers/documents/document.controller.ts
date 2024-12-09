@@ -18,6 +18,11 @@ export const uploadToS3: RequestHandler = async (req, res, next) => {
     //@ts-ignore
     const userId = req.user!._id
 
+    //since userId is coming from trusted source (the token), we can trust it to be a valid ObjectId, therefore skipping the check in all controllers
+    // if (!mongoose.isValidObjectId(userId)) {
+    //   throw createHttpError(400, 'Invalid user id')
+    // }
+
     //for cases where fileType is provided but not recognized
     let folder = 'unCategorized'
 
