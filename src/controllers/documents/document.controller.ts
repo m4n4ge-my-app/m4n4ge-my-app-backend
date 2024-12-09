@@ -65,6 +65,13 @@ export const uploadToS3 = async (req: Request, res: Response) => {
 export const getPresignedUrl = async (req: Request, res: Response) => {
   const id = req.params.id
 
+  //extract the token from the Authorization header
+  const authHeader = req.headers.authorization
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+  const token = authHeader.split(' ')[1]
+
   try {
     const document = await Document.findById(id)
 
@@ -72,7 +79,7 @@ export const getPresignedUrl = async (req: Request, res: Response) => {
       return res.status(404).json({ error: 'Document not found' })
     }
 
-    const presignedUrl = generatePresignedUrl(document.s3key)
+    const presignedUrl = generatePresignedUrl(document.s3key, token)
     return res.status(200).json({ document, presignedUrl })
   } catch (error) {
     console.error('Error fetching document:', error)
