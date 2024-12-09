@@ -98,3 +98,15 @@ export const getAllDocuments = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'Failed to fetch documents' })
   }
 }
+
+export const deleteDocument = async (req: Request, res: Response) => {
+  const id = req.params.id
+
+  try {
+    await Document.findByIdAndDelete(id)
+    return res.sendStatus(204)
+  } catch (error) {
+    console.error('Error deleting document:', error)
+    return res.status(500).json({ error: 'Failed to delete document' })
+  }
+}

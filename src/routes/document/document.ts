@@ -7,5 +7,6 @@ const documentsRouter = express.Router()
 documentsRouter.post('/', upload.single('file'), documentsController.uploadToS3)
 documentsRouter.get('/:id/presignedUrl', documentsController.getPresignedUrl)
 documentsRouter.get('/', documentsController.getAllDocuments)
+documentsRouter.delete('/:id', documentsController.deleteDocument)
 
 export default documentsRouter
