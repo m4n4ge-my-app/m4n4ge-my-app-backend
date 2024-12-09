@@ -15,7 +15,7 @@ export const uploadToS3: RequestHandler = async (req, res, next) => {
       throw createHttpError(400, 'File and fileType are required')
     }
 
-    //@ts-ignore
+    //@ts-expect-error, we are sure that user is attached to the request object by the auth middleware
     const userId = req.user!._id
 
     //since userId is coming from trusted source (the token), we can trust it to be a valid ObjectId, therefore skipping the check in all controllers
@@ -93,7 +93,7 @@ export const getPresignedUrl: RequestHandler = async (req, res, next) => {
 
 export const getAllDocuments: RequestHandler = async (req, res, next) => {
   try {
-    //@ts-ignore
+    //@ts-expect-error, we are sure that user is attached to the request object by the auth middleware
     const userId = req.user!._id
     const documents = await Document.find({ userId })
     res.status(200).json(documents)

@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import ApplicationModel from '../../models/application.model'
 
 export const getApplications: RequestHandler = async (req, res, next) => {
-  //@ts-ignore
+  //@ts-expect-error, we are sure that user is attached to the request object by the auth middleware
   const userId = req.user!._id
   try {
     const applications = await ApplicationModel.find({ userId }).exec()
@@ -68,7 +68,7 @@ export const createApplication: RequestHandler<unknown, unknown, CreateApplicati
   const workModel = req.body.workModel
   const jobPlatform = req.body.jobPlatform
   const isFavorite = req.body.isFavorite
-  //@ts-ignore
+  //@ts-expect-error, we are sure that user is attached to the request object by the auth middleware
   const userId = req.user!._id
   const applicationStatus = 'Applied'
 
@@ -147,7 +147,7 @@ export const updateApplication: RequestHandler<
   const updatedWorkModel = req.body.workModel
   const updatedJobPlatform = req.body.jobPlatform
   const updatedIsFavorite = req.body.isFavorite
-  //@ts-ignore
+  //@ts-expect-error, we are sure that user is attached to the request object by the auth middleware
   const userId = req.user!._id
   const updatedStatus = req.body.applicationStatus
   try {
@@ -218,7 +218,7 @@ export const updateApplication: RequestHandler<
 //since we do not need body for deletion, we don not need to pass the types for RequestHandler
 export const deleteApplication: RequestHandler = async (req, res, next) => {
   const applicationId = req.params.id
-  //@ts-ignore
+  //@ts-expect-error, we are sure that user is attached to the request object by the auth middleware
   const userId = req.user!._id
   try {
     //handle invalid object id
