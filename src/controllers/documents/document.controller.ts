@@ -80,7 +80,7 @@ export const getPresignedUrl = async (req: Request, res: Response) => {
     }
 
     const presignedUrl = generatePresignedUrl(document.s3key, token)
-    return res.status(200).json({ document, presignedUrl })
+    return res.status(200).json({ presignedUrl })
   } catch (error) {
     console.error('Error fetching document:', error)
     return res.status(500).json({ error: 'Failed to fetch document' })
