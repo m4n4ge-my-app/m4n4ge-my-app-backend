@@ -1,17 +1,18 @@
-import { Request, Response } from 'express'
+import { Request, RequestHandler, Response } from 'express'
 import { v4 as uuid } from 'uuid'
 
 import Document from '../../models/document.model'
 import { generatePresignedUrl, uploadToS3Bucket } from '../../util/s3'
+import createHttpError from 'http-errors'
 
-export const uploadToS3 = async (req: Request, res: Response) => {
+export const uploadToS3: RequestHandler = async (req, res, next) => {
   try {
     const file = req.file as Express.Multer.File
     const { fileType } = req.body
 
     //ensure file and fileType are provided
     if (!file || !fileType) {
-      return res.status(400).json({ error: 'File and fileType are required' })
+      throw createHttpError(400, 'File and fileType are required')
     }
 
     //@ts-ignore
@@ -55,10 +56,9 @@ export const uploadToS3 = async (req: Request, res: Response) => {
 
     await document.save()
 
-    return res.status(201).json(document)
+    res.status(201).json(document)
   } catch (error) {
-    console.error('Error uploading file:', error)
-    return res.status(500).json({ error: 'Failed to upload document' })
+    next(error)
   }
 }
 
