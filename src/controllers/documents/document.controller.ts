@@ -62,13 +62,13 @@ export const uploadToS3: RequestHandler = async (req, res, next) => {
   }
 }
 
-export const getPresignedUrl = async (req: Request, res: Response) => {
+export const getPresignedUrl: RequestHandler = async (req, res, next) => {
   const id = req.params.id
 
   //extract the token from the Authorization header
   const authHeader = req.headers.authorization
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Unauthorized' })
+    throw createHttpError(401, 'Unauthorized')
   }
   const token = authHeader.split(' ')[1]
 
@@ -76,37 +76,34 @@ export const getPresignedUrl = async (req: Request, res: Response) => {
     const document = await Document.findById(id)
 
     if (!document) {
-      return res.status(404).json({ error: 'Document not found' })
+      throw createHttpError(404, 'Document not found')
     }
 
     const presignedUrl = generatePresignedUrl(document.s3key, token)
-    return res.status(200).json({ presignedUrl })
+    res.status(200).json({ presignedUrl })
   } catch (error) {
-    console.error('Error fetching document:', error)
-    return res.status(500).json({ error: 'Failed to fetch document' })
+    next(error)
   }
 }
 
-export const getAllDocuments = async (req: Request, res: Response) => {
+export const getAllDocuments: RequestHandler = async (req, res, next) => {
   try {
     //@ts-ignore
     const userId = req.user!._id
     const documents = await Document.find({ userId })
-    return res.status(200).json(documents)
+    res.status(200).json(documents)
   } catch (error) {
-    console.error('Error fetching documents:', error)
-    return res.status(500).json({ error: 'Failed to fetch documents' })
+    next(error)
   }
 }
 
-export const deleteDocument = async (req: Request, res: Response) => {
+export const deleteDocument: RequestHandler = async (req, res, next) => {
   const id = req.params.id
 
   try {
     await Document.findByIdAndDelete(id)
-    return res.sendStatus(204)
+    res.sendStatus(204)
   } catch (error) {
-    console.error('Error deleting document:', error)
-    return res.status(500).json({ error: 'Failed to delete document' })
+    next(error)
   }
 }
