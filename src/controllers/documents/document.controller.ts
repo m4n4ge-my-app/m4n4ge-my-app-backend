@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from 'express'
+import { RequestHandler } from 'express'
 import { v4 as uuid } from 'uuid'
 
 import Document from '../../models/document.model'
