@@ -10,6 +10,7 @@ import morgan from 'morgan'
 
 //local imports
 import applicationsRouter from './routes/application/application'
+import documentsRouter from './routes/document/document'
 import { requireAuth } from './middleware/requireAuth'
 import authRouter from './routes/auth/auth'
 import env from './util/validateEnv'
@@ -34,6 +35,9 @@ app.use(requireAuth)
 
 //application routes
 app.use('/api/applications', applicationsRouter)
+
+//document routes
+app.use('/api/documents', documentsRouter)
 
 //error handling middleware for invalid routes
 app.use((_req: Request, _res: Response, next: NextFunction) => next(createHttpError(404, 'Endpoint not found')))
