@@ -2,7 +2,7 @@ import { RequestHandler } from 'express'
 import { v4 as uuid } from 'uuid'
 
 import Document from '../../models/document.model'
-import { generatePresignedUrl, uploadToS3Bucket } from '../../util/s3'
+import { deleteFromS3Bucket, generatePresignedUrl, uploadToS3Bucket } from '../../util/s3'
 import createHttpError from 'http-errors'
 
 export const uploadToS3: RequestHandler = async (req, res, next) => {
@@ -106,8 +106,16 @@ export const deleteDocument: RequestHandler = async (req, res, next) => {
   const id = req.params.id
 
   try {
-    await Document.findByIdAndDelete(id)
-    res.sendStatus(204)
+    const document = await Document.findById(id)
+
+    if (!document) {
+      throw createHttpError(404, 'Document not found')
+    }
+
+    await deleteFromS3Bucket(document.s3key)
+    await document.deleteOne()
+
+    res.status(200).json({ message: 'Document deleted successfully' })
   } catch (error) {
     next(error)
   }

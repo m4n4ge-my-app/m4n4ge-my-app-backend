@@ -44,3 +44,12 @@ export const generatePresignedUrl = (s3key: string, token: string): string => {
 
   return s3.getSignedUrl('getObject', params)
 }
+
+export const deleteFromS3Bucket = async (s3key: string): Promise<void> => {
+  const params: AWS.S3.DeleteObjectRequest = {
+    Bucket: process.env.AWS_BUCKET_NAME!,
+    Key: s3key
+  }
+
+  await s3.deleteObject(params).promise()
+}
